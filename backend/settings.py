@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '=6nfe9x=)4vtneez2t(@3oal*z(d!w
 # SECURITY WARNING: don't run with debug turned on in production!
 #DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
-ALLOWED_HOSTS = ['10.0.0.8','127.0.0.1']
+ALLOWED_HOSTS = ['10.0.0.8','127.0.0.1',"cryptic-caverns-46619.herokuapp.com"]
 
 
 # Application definition
