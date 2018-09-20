@@ -140,9 +140,9 @@ ENV_PATH = os.path.abspath(os.path.dirname("settings.py"))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+#STATICFILES_DIRS = (
+#    os.path.join(BASE_DIR, 'static'),
+#)
 
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
