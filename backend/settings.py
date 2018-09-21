@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #SECRET_KEY = '=6nfe9x=)4vtneez2t(@3oal*z(d!w-stu!)rxxmt0^o#mp&ex'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '=6nfe9x=)4vtneez2t(@3oal*z(d!w-stu!)rxxmt0^o#mp&ex')
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = False
+#DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 ALLOWED_HOSTS = ['10.0.0.8','127.0.0.1',"audiotypeapi.herokuapp.com"]
 
 
@@ -140,7 +140,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 ENV_PATH = os.path.abspath(os.path.dirname("settings.py"))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 #MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+#MEDIA_URL = '/media/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
@@ -156,17 +156,17 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 #STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
 AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
-AWS_STORAGE_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME", "")
+S3_BUCKET_NAME = os.environ.get("S3_BUCKET_NAME", "")
 AWS_QUERYSTRING_AUTH = False #This will make sure that the file URL does not have unnecessary parameters like your access key.
-AWS_S3_CUSTOM_DOMAIN = AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com'
+AWS_S3_CUSTOM_DOMAIN = S3_BUCKET_NAME + '.s3.amazonaws.com/media'
 #static media settings
 #STATIC_URL = 'https://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
 #MEDIA_URL = STATIC_URL + 'media/'
-MEDIA_URL = 'https://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/' + 'media/'
+#MEDIA_URL = 'https://' + 'audiotype-dumpdata' + '.s3.amazonaws.com/' + 'media/'
 #STATICFILES_DIRS = ( os.path.join(BASE_DIR, 'static'), )
 #STATIC_ROOT = 'staticfiles'
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
-STATICFILES_FINDERS = (
-'django.contrib.staticfiles.finders.FileSystemFinder',
-'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
+#STATICFILES_FINDERS = (
+#'django.contrib.staticfiles.finders.FileSystemFinder',
+#'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#)
