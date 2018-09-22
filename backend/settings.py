@@ -72,7 +72,7 @@ CORS_ALLOW_METHODS = (
 )
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/',
-    'audiotype.s3-website-us-east-1.amazonaws.com'
+    'audiotype.s3-website-us-east-1.amazonaws.com/'
 )
 CORS_ALLOW_HEADERS = (
     'accept',
@@ -84,6 +84,8 @@ CORS_ALLOW_HEADERS = (
     'user-agent',
     'x-csrftoken',
     'x-requested-with',
+    'access-control-allow-methods',
+    'access-control-allow-origin'
 )
 ROOT_URLCONF = 'backend.urls'
 
