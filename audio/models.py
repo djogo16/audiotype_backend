@@ -67,16 +67,5 @@ class Audio_sixty(models.Model):
 	audio = models.FileField(upload_to = 'audio_file_sixty')
 	text = models.TextField()
 	segments = models.CharField(max_length = 250)
-class Scores(models.Model):
-	id = models.AutoField(primary_key = True)
-	correct_count = models.IntegerField()
-	missed_count = models.IntegerField()
-	misspelled_count = models.IntegerField()
-	correct_answer = models.TextField()
-	user_answer = models.TextField()
-	user = models.ForeignKey(User, related_name="scores", on_delete=models.CASCADE, null=True)
-	stars = models.IntegerField(default = 0)
-	book_title = models.CharField(max_length = 250)
-	created_at = models.DateTimeField(default=datetime.now, blank=True)
 	
 
