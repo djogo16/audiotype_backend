@@ -1,6 +1,6 @@
 # audio/serializers.py
 from rest_framework import serializers
-from .models import Audio, Book, Audio_twenty, Audio_forty, Audio_sixty, Scores
+from .models import Audio, Book, Audio_twenty, Audio_forty, Audio_sixty#, Scores
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
