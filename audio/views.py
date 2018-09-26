@@ -9,8 +9,8 @@ import re
 from random import randint
 from serve_correct import compareText
 from knox.models import AuthToken
-from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty, Scores
-from .serializers import AudioTwentySerializer, BookSerializer, CreateUserSerializer, UserSerializer, LoginUserSerializer, ScoresSerializer
+from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty, #Scores
+from .serializers import AudioTwentySerializer, BookSerializer, CreateUserSerializer, UserSerializer, LoginUserSerializer, #ScoresSerializer
 
 
 
@@ -115,40 +115,42 @@ class UserAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+'''
+	class ScoreViewSet(generics.RetrieveAPIView):
+	    permission_classes = [permissions.IsAuthenticated, ]
+	    serializer_class = ScoresSerializer
 
-class ScoreViewSet(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated, ]
-    serializer_class = ScoresSerializer
+	    def get_queryset(self):
+		return self.request.user.scores.all()
 
-    def get_queryset(self):
-        return self.request.user.scores.all()
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-class SaveScore(APIView):
-	def post(self, request):
-		data = request.data
-		user = User.objects.get(username = data['username'])
-		score = Scores(
-                           correct_count = data['correct_count'], 
-                           missed_count = data['missed_count'], 
-                           misspelled_count = data['misspelled_count'],
-                           correct_answer = data['correct_answer'],
-                           user_answer = data['user_answer'],
-                           stars = data['stars'],
-                           book_title = data['book_title'],
-                           user = user
-                          )
-		score.save()
-		return Response(status.HTTP_201_CREATED)
-
-class GetScore(generics.ListCreateAPIView):
-	#renderer_classes = (JSONRenderer, )
-	serializer_class = ScoresSerializer
-	def get_queryset(self):
-		username = self.request.query_params.get('username', None)
-		user = User.objects.get(username = username)
-		queryset = Scores.objects.filter(user = user)
-		return queryset
-
+	    def perform_create(self, serializer):
+		serializer.save(user=self.request.user)
+'''
+'''
+	class SaveScore(APIView):
+		def post(self, request):
+			data = request.data
+			user = User.objects.get(username = data['username'])
+			score = Scores(
+		                   correct_count = data['correct_count'], 
+		                   missed_count = data['missed_count'], 
+		                   misspelled_count = data['misspelled_count'],
+		                   correct_answer = data['correct_answer'],
+		                   user_answer = data['user_answer'],
+		                   stars = data['stars'],
+		                   book_title = data['book_title'],
+		                   user = user
+		                  )
+			score.save()
+			return Response(status.HTTP_201_CREATED)
+'''
+'''
+	class GetScore(generics.ListCreateAPIView):
+		#renderer_classes = (JSONRenderer, )
+		serializer_class = ScoresSerializer
+		def get_queryset(self):
+			username = self.request.query_params.get('username', None)
+			user = User.objects.get(username = username)
+			queryset = Scores.objects.filter(user = user)
+			return queryset
+'''
