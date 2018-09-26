@@ -9,8 +9,8 @@ import re
 from random import randint
 from serve_correct import compareText
 from knox.models import AuthToken
-from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty, #Scores
-from .serializers import AudioTwentySerializer, BookSerializer, CreateUserSerializer, UserSerializer, LoginUserSerializer, #ScoresSerializer
+from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty #Scores
+from .serializers import AudioTwentySerializer, BookSerializer, CreateUserSerializer, UserSerializer, LoginUserSerializer #ScoresSerializer
 
 
 
