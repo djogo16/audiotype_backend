@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #SECRET_KEY = '=6nfe9x=)4vtneez2t(@3oal*z(d!w-stu!)rxxmt0^o#mp&ex'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '=6nfe9x=)4vtneez2t(@3oal*z(d!w-stu!)rxxmt0^o#mp&ex')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-#DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+#DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 ALLOWED_HOSTS = ['10.0.0.8','127.0.0.1',"audiotypeapi.herokuapp.com"]
 
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'audio.apps.AudioConfig',
     'rest_framework',
+    'knox',
     'corsheaders',
     'storages',
 
@@ -46,7 +47,8 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
 }
 
 MIDDLEWARE = [
@@ -85,7 +87,8 @@ CORS_ALLOW_HEADERS = (
     'x-csrftoken',
     'x-requested-with',
     'access-control-allow-methods',
-    'access-control-allow-origin'
+    'access-control-allow-origin',
+    'headers'
 )
 ROOT_URLCONF = 'backend.urls'
 

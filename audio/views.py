@@ -1,13 +1,17 @@
 # audio/views.py
-from rest_framework import generics
+from rest_framework import generics, permissions,viewsets
+from rest_framework import status
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth.models import User
 import re
 from random import randint
 from serve_correct import compareText
-from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty
-from .serializers import AudioTwentySerializer, BookSerializer
+from knox.models import AuthToken
+from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty, Scores
+from .serializers import AudioTwentySerializer, BookSerializer, CreateUserSerializer, UserSerializer, LoginUserSerializer, ScoresSerializer
+
 
 
 class ListAudio(generics.ListCreateAPIView):
@@ -58,7 +62,6 @@ class SelectedBook(generics.ListCreateAPIView):
 		else:
 			queryset = Book.objects.filter(title__contains = book_title)
 		
-		print(path)
 		return queryset
 class ListBooks(generics.ListCreateAPIView):
 	renderer_classes = (JSONRenderer, )
@@ -82,3 +85,70 @@ class ServeResult(APIView):
 			}
 		
 		return Response(result)
+
+class RegistrationAPI(generics.GenericAPIView):
+    serializer_class = CreateUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)
+        })
+
+class LoginAPI(generics.GenericAPIView):
+    serializer_class = LoginUserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data
+        return Response({
+            "user": UserSerializer(user, context=self.get_serializer_context()).data,
+            "token": AuthToken.objects.create(user)
+        })
+class UserAPI(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
+
+class ScoreViewSet(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated, ]
+    serializer_class = ScoresSerializer
+
+    def get_queryset(self):
+        return self.request.user.scores.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class SaveScore(APIView):
+	def post(self, request):
+		data = request.data
+		user = User.objects.get(username = data['username'])
+		score = Scores(
+                           correct_count = data['correct_count'], 
+                           missed_count = data['missed_count'], 
+                           misspelled_count = data['misspelled_count'],
+                           correct_answer = data['correct_answer'],
+                           user_answer = data['user_answer'],
+                           stars = data['stars'],
+                           book_title = data['book_title'],
+                           user = user
+                          )
+		score.save()
+		return Response(status.HTTP_201_CREATED)
+
+class GetScore(generics.ListCreateAPIView):
+	#renderer_classes = (JSONRenderer, )
+	serializer_class = ScoresSerializer
+	def get_queryset(self):
+		username = self.request.query_params.get('username', None)
+		user = User.objects.get(username = username)
+		queryset = Scores.objects.filter(user = user)
+		return queryset
+

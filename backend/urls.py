@@ -27,6 +27,7 @@ from django.urls import path
 
 urlpatterns += [
     path('audio/', include('audio.urls')),
+    url(r'^audio/auth/', include('knox.urls')),
     
 ]
 #Add URL maps to redirect the base URL to our application
