@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        #('audio', '0002_auto_20180922_2134'),
+        ('audio', '0002_auto_20180922_2134'),
     ]
 
     operations = [
@@ -21,11 +21,6 @@ class Migration(migrations.Migration):
                 ('correct_count', models.IntegerField()),
                 ('missed_count', models.IntegerField()),
                 ('missplelled_count', models.IntegerField()),
-		('created_at', models.DateTimeField(blank=True, default=datetime.datetime.now)),
-		('stars', models.IntegerField(default=0)),
-		('book_title', models.CharField(default='Book title unknown', max_length=250)),
-		('correct_answer', models.TextField(default=' ')),
-		('user_answer', models.TextField(default=' ')),
                 ('user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='scores', to=settings.AUTH_USER_MODEL)),
             ],
         ),
