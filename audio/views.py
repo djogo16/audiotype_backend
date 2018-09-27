@@ -9,46 +9,27 @@ import re
 from random import randint
 from serve_correct import compareText
 from knox.models import AuthToken
-from .models import Audio, Book, Chapter, Audio_twenty, Audio_forty, Audio_sixty, Scores
+from .models import Book, Chapter, Audio_twenty, Scores
 from .serializers import AudioTwentySerializer, BookSerializer, CreateUserSerializer, UserSerializer, LoginUserSerializer, ScoresSerializer
 
 
 
 class ListAudio(generics.ListCreateAPIView):
-	#serializer_class = AudioSerializer
+	serializer_class = AudioTwentySerializer
 	length = 0
 	def get_queryset(self):
 		chapter_id = int(self.request.query_params.get('chapter_id', None))
 		length = int(self.request.query_params.get('length', None))
 		chapter = Chapter.objects.get(pk = chapter_id)
-		if(length == 20):	
-			queryset = Audio_twenty.objects.filter(chapter_id = chapter.id)
-			serializer_class = AudioTwentySerializer
-		elif (length == 40):
-			queryset = Audio_forty.objects.filter(chapter_id = chapter.id)
-		else:
-			queryset = Audio_sixty.objects.filter(chapter_id = chapter.id)
+		queryset = Audio_twenty.objects.filter(chapter_id = chapter.id)
+		serializer_class = AudioTwentySerializer
 		return queryset
-	def get_serializer_class(self):
-		length = int(self.request.query_params.get('length', None))
-		if(length == 20):	
-			serializer_class = AudioTwentySerializer
-		elif (length == 40):
-			serializer_class = AudioFortySerializer
-		else:
-			serializer_class = AudioSixtySerializer
-		return serializer_class
 class RandomAudio(APIView):
 	renderer_classes = (JSONRenderer, )
 	
 	def get(self,request, format = None):
 		length = int(request.GET.get('length', 20))
-		if(length == 20):
-			queryset = Audio_twenty.objects.all()
-		elif (length ==40):
-			queryset = Audio_forty.objects.all()
-		else:
-			queryset = Audio_sixty.objects.all()
+		queryset = Audio_twenty.objects.all()
 		index = randint(0,len(queryset)-1)
 		return Response({"audio" :[str(queryset[index].audio)], "segments" :queryset[index].segments})
 	
