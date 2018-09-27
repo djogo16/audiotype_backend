@@ -1,6 +1,6 @@
 # audio/serializers.py
 from rest_framework import serializers
-from .models import Audio, Book, Audio_twenty, Audio_forty, Audio_sixty#, Scores
+from .models import Audio, Book, Audio_twenty, Audio_forty, Audio_sixty, Scores
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
@@ -43,13 +43,12 @@ class BookSerializer(serializers.ModelSerializer):
 		    'chapters',
 		)
 		model = Book
-'''
 
-	class ScoresSerializer(serializers.ModelSerializer):
-	    class Meta:
-		model = Scores
-		fields = ('id', 'correct_count', 'missed_count', 'misspelled_count', 'book_title' ,'correct_answer', 'user_answer','created_at','stars')
-'''
+
+class ScoresSerializer(serializers.ModelSerializer):
+    class Meta:
+	model = Scores
+	fields = ('id', 'correct_count', 'missed_count', 'misspelled_count', 'book_title' ,'correct_answer','user_answer','created_at','stars')
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
