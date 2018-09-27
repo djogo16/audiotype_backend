@@ -46,9 +46,9 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class ScoresSerializer(serializers.ModelSerializer):
-    class Meta:
-	model = Scores
-	fields = ('id', 'correct_count', 'missed_count', 'misspelled_count', 'book_title' ,'correct_answer','user_answer','created_at','stars')
+	class Meta:
+		model = Scores
+		fields = ('id', 'correct_count', 'missed_count', 'misspelled_count', 'book_title' ,'correct_answer','user_answer','created_at','stars')
 
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
